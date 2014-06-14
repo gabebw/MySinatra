@@ -14,18 +14,31 @@ class MySinatra
     end
 
     def self.add_handler(verb_and_path, block)
-      @handlers ||= {}
-      @handlers[verb_and_path] = block
+      handlers[verb_and_path] = block
     end
 
     def self.get_handler(verb_and_path)
-      if @handlers.key?(verb_and_path)
-        @handlers[verb_and_path].call
+      if handlers.key?(verb_and_path)
+        handlers[verb_and_path].call
       else
-        unless path = '/favicon.ico'
-          raise "No handler for #{verb_and_path}"
-        end
+        default_response
       end
+    end
+
+    def self.default_response
+      body = <<-EOHTML
+        <!DOCTYPE html>
+        <html>
+          <body>
+            <h1>That route doesn't exist :(</h1>
+          </body>
+        </html>
+      EOHTML
+      [404, {"Content-Type" => "text/html"}, body]
+    end
+
+    def self.handlers
+      @handlers ||= {}
     end
   end
 end
