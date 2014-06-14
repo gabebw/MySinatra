@@ -6,4 +6,4 @@ class HelloWorld
   end
 end
 
-Rack::Handler::Mongrel.run HelloWorld.new, :Port => 9292
+Rack::Handler::Thin.run App, Port: 4567
