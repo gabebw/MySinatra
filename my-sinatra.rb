@@ -6,7 +6,7 @@ class MySinatra
     def call(env)
       verb = env["REQUEST_METHOD"]
       path = env["REQUEST_PATH"]
-      get_handler("#{verb} #{path}")
+      response_for("#{verb} #{path}")
     end
 
     def get(path, &block)
@@ -17,7 +17,7 @@ class MySinatra
       handlers[verb_and_path] = block
     end
 
-    def get_handler(verb_and_path)
+    def response_for(verb_and_path)
       if handlers.key?(verb_and_path)
         handlers[verb_and_path].call
       else
